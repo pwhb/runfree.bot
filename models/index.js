@@ -9,6 +9,8 @@ const StudentSchema = new mongoose.Schema({
   username: String,
   first_name: String,
   last_name: String,
+  reason_for_joining: String,
+  reason_for_leaving: String,
 });
 
 StudentSchema.plugin(AutoIncrement, { inc_field: "student_id" });
