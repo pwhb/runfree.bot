@@ -17,7 +17,7 @@ export const b13Register = async (ctx) => {
         last_name,
       });
       ctx.reply(
-        `စာရင်းသွင်းပြီးပါပြီ။ ${first_name} ရဲ့ ္student id က ${doc.student_id} ပါ။ ဒီမှာလည်း ထပ်စစ်ကြည့်နိုင်ပါတယ်၊ https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
+        `စာရင်းသွင်းပြီးပါပြီ။ ${first_name} ရဲ့ student id က ${doc.student_id} ပါ။ ဒီမှာလည်း ထပ်စစ်ကြည့်နိုင်ပါတယ်၊ https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
       );
       ctx.reply(
         "ဘာလို့ ဒီအတန်းကို တက်ချင်တာပါလဲ \n \n အောက်က နမူနာလိုမျိုးပြန်ဖြေပေးပါ \n \n reason for joining: telegram bot ရေးတတ်ချင်လို့"
