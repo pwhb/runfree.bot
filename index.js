@@ -1,7 +1,15 @@
 import { Telegraf } from "telegraf";
 import { b13Register, b13MyID } from "./controller/index.js";
 import mongoose from "mongoose";
+import express from "express";
 
+const app = express();
+
+const token = process.env.BOT_TOKEN;
+const port = process.env.PORT || 3000;
+const url = process.env.URL || "https://runfree-bot-joi.herokuapp.com/";
+
+const bot = new Telegraf(token);
 async function main() {
   await mongoose
     .connect(process.env.MONGODB_URI)
@@ -9,10 +17,12 @@ async function main() {
       console.log("database connected!");
     })
     .catch((e) => console.log(e));
-  const bot = new Telegraf(process.env.BOT_TOKEN);
+
+  bot.telegram.setWebhook(`${url}/bot${token}`);
 
   bot.start((ctx) => ctx.reply(`hello ${ctx.chat.first_name}`));
 
+  bot.on("text", (ctx) => ctx.reply(`hello ${ctx.chat.first_name}`));
   // register
   bot.command("b13_register", async (ctx) => {
     const { id, first_name, last_name, username } = ctx.chat;
@@ -102,11 +112,13 @@ async function main() {
         }
     }
   });
-
-  bot.launch();
-  // Enable graceful stop
-  process.once("SIGINT", () => bot.stop("SIGINT"));
-  process.once("SIGTERM", () => bot.stop("SIGTERM"));
+  app.use(bot.webhookCallback(`/bot${token}`));
+  app.get("/", (req, res) => {
+    res.send("runfree bot");
+  });
+  app.listen(port, () => {
+    console.log("server started");
+  });
 }
 
 main();
