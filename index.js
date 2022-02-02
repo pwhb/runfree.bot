@@ -4,12 +4,13 @@ import mongoose from "mongoose";
 import express from "express";
 
 const app = express();
-
-const token = process.env.BOT_TOKEN;
 const port = process.env.PORT || 3000;
-const url = process.env.URL || "https://runfree-bot-joi.herokuapp.com/";
 
-const bot = new Telegraf(token);
+app.get("/", (req, res) => res.send("runfree bot"));
+app.listen(port, () => {
+  console.log("server started");
+});
+
 async function main() {
   await mongoose
     .connect(process.env.MONGODB_URI)
@@ -17,57 +18,48 @@ async function main() {
       console.log("database connected!");
     })
     .catch((e) => console.log(e));
-
-  bot.telegram.setWebhook(`${url}/bot${token}`);
+  const bot = new Telegraf(process.env.BOT_TOKEN);
 
   bot.start((ctx) => ctx.reply(`hello ${ctx.chat.first_name}`));
 
-  bot.on("text", (ctx) => ctx.reply(`hello ${ctx.chat.first_name}`));
   // register
   bot.command("b13_register", async (ctx) => {
     const { id, first_name, last_name, username } = ctx.chat;
-    try {
-      const doc = await b13Register({
-        telegram_id: id,
-        username,
-        first_name,
-        last_name,
-      });
-      const { created } = doc;
-      if (created) {
-        ctx.reply(
-          "your name is already in the database. no need to register again."
-        );
-      } else {
-        ctx.reply(`successfully registered`);
-      }
-      ctx.reply(`your student_id is ${doc.student_id}`);
+    const doc = await b13Register({
+      telegram_id: id,
+      username,
+      first_name,
+      last_name,
+    });
+    const { created } = doc;
+    if (created) {
       ctx.reply(
-        `you can check your name here, https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
+        "your name is already in the database. no need to register again."
       );
-    } catch (e) {
-      console.log(e);
+    } else {
+      ctx.reply(`successfully registered`);
     }
+    ctx.reply(`your student_id is ${doc.student_id}`);
+    ctx.reply(
+      `you can check your name here, https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
+    );
   });
 
   // check id
   bot.command("b13_my_id", async (ctx) => {
     const { id, first_name } = ctx.chat;
-    try {
-      const doc = await b13MyID({
-        telegram_id: id,
-      });
-      if (doc) {
-        ctx.reply(`${first_name}, your student_id is ${doc.student_id}`);
-        ctx.reply(
-          `you can also check your name here, https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
-        );
-      } else {
-        ctx.reply(`you haven't registered yet. you don't have a student id`);
-        ctx.reply(`send me /b13_register to register`);
-      }
-    } catch (e) {
-      console.log(e);
+    const doc = await b13MyID({
+      telegram_id: id,
+    });
+    const { created } = doc;
+    if (created) {
+      ctx.reply(`${first_name}, your student_id is ${doc.student_id}`);
+      ctx.reply(
+        `you can also check your name here, https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
+      );
+    } else {
+      ctx.reply(`you haven't registered yet. you don't have a student id`);
+      ctx.reply(`send me /b13_register to register`);
     }
   });
 
@@ -112,13 +104,12 @@ async function main() {
         }
     }
   });
-  app.use(bot.webhookCallback(`/bot${token}`));
-  app.get("/", (req, res) => {
-    res.send("runfree bot");
-  });
-  app.listen(port, () => {
-    console.log("server started");
-  });
+
+  bot.launch();
+
+  // Enable graceful stop
+  process.once("SIGINT", () => bot.stop("SIGINT"));
+  process.once("SIGTERM", () => bot.stop("SIGTERM"));
 }
 
 main();
