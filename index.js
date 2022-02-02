@@ -47,8 +47,7 @@ async function main() {
       const doc = await b13MyID({
         telegram_id: id,
       });
-      const { created } = doc;
-      if (created) {
+      if (doc) {
         ctx.reply(`${first_name}, your student_id is ${doc.student_id}`);
         ctx.reply(
           `you can also check your name here, https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`

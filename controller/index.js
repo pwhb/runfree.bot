@@ -24,5 +24,5 @@ export const b13MyID = async ({ telegram_id }) => {
   if (doc === null) {
     return null;
   }
-  return { ...doc._doc, created: true };
+  return { ...doc._doc };
 };
