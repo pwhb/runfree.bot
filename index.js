@@ -16,41 +16,49 @@ async function main() {
   // register
   bot.command("b13_register", async (ctx) => {
     const { id, first_name, last_name, username } = ctx.chat;
-    const doc = await b13Register({
-      telegram_id: id,
-      username,
-      first_name,
-      last_name,
-    });
-    const { created } = doc;
-    if (created) {
+    try {
+      const doc = await b13Register({
+        telegram_id: id,
+        username,
+        first_name,
+        last_name,
+      });
+      const { created } = doc;
+      if (created) {
+        ctx.reply(
+          "your name is already in the database. no need to register again."
+        );
+      } else {
+        ctx.reply(`successfully registered`);
+      }
+      ctx.reply(`your student_id is ${doc.student_id}`);
       ctx.reply(
-        "your name is already in the database. no need to register again."
+        `you can check your name here, https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
       );
-    } else {
-      ctx.reply(`successfully registered`);
+    } catch (e) {
+      console.log(e);
     }
-    ctx.reply(`your student_id is ${doc.student_id}`);
-    ctx.reply(
-      `you can check your name here, https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
-    );
   });
 
   // check id
   bot.command("b13_my_id", async (ctx) => {
     const { id, first_name } = ctx.chat;
-    const doc = await b13MyID({
-      telegram_id: id,
-    });
-    const { created } = doc;
-    if (created) {
-      ctx.reply(`${first_name}, your student_id is ${doc.student_id}`);
-      ctx.reply(
-        `you can also check your name here, https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
-      );
-    } else {
-      ctx.reply(`you haven't registered yet. you don't have a student id`);
-      ctx.reply(`send me /b13_register to register`);
+    try {
+      const doc = await b13MyID({
+        telegram_id: id,
+      });
+      const { created } = doc;
+      if (created) {
+        ctx.reply(`${first_name}, your student_id is ${doc.student_id}`);
+        ctx.reply(
+          `you can also check your name here, https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
+        );
+      } else {
+        ctx.reply(`you haven't registered yet. you don't have a student id`);
+        ctx.reply(`send me /b13_register to register`);
+      }
+    } catch (e) {
+      console.log(e);
     }
   });
 
