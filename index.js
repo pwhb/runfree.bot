@@ -49,6 +49,7 @@ async function main() {
     if (text.includes("reason for joining")) {
       let reason_for_joining = text.replace("reason for joining", "");
       reason_for_joining = reason_for_joining.replace(":", "");
+      reason_for_joining = reason_for_joining.replace("-", "");
       reason_for_joining = reason_for_joining.trim();
       await b13EditWhyJoin({ ctx, reason_for_joining });
     } else if (greetKeywords.includes(text.toLowerCase())) {
