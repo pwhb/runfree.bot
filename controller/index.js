@@ -10,7 +10,7 @@ export const b13Register = async (ctx) => {
         `${first_name}, သင့် student id က ${doc.student_id} ပါ။ ဒီမှာလည်း ထပ်စစ်ကြည့်နိုင်ပါတယ်၊ https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
       );
     } else {
-      await B13Student.create({
+      const doc = await B13Student.create({
         telegram_id: id,
         username,
         first_name,
@@ -19,10 +19,8 @@ export const b13Register = async (ctx) => {
       ctx.reply(
         `စာရင်းသွင်းပြီးပါပြီ။ ${first_name} ရဲ့ ္student id က ${doc.student_id} ပါ။ ဒီမှာလည်း ထပ်စစ်ကြည့်နိုင်ပါတယ်၊ https://runfree-broccoli.vercel.app/class/b-13#b13-${doc.student_id}`
       );
-
-      ctx.reply("ဘာလို့ ဒီအတန်းကို တက်ချင်တာပါလဲ");
       ctx.reply(
-        "အောက်က နမူနာလိုမျိုးပြန်ဖြေပေးပါ \n \n reason for joining - telegram bot ရေးတတ်ချင်လို့"
+        "ဘာလို့ ဒီအတန်းကို တက်ချင်တာပါလဲ \n \n အောက်က နမူနာလိုမျိုးပြန်ဖြေပေးပါ \n \n reason for joining - telegram bot ရေးတတ်ချင်လို့"
       );
     }
   } catch (e) {
@@ -73,9 +71,8 @@ export const b13WhyJoin = async (ctx) => {
           "ပြန်ပြင်လိုပါက အောက်ကနမူနာလိုမျိုးပြန်ပို့ပေးပါ \n \n reason for joining - telegram bot ရေးတတ်ချင်လို့"
         );
       } else {
-        ctx.reply("ဘာလို့ ဒီအတန်းကို တက်ချင်တာပါလဲ");
         ctx.reply(
-          "အောက်ကနမူနာလိုမျိုးပြန်ဖြေပေးပါ \n \n reason for joining - telegram bot ရေးတတ်ချင်လို့"
+          "ဘာလို့ ဒီအတန်းကို တက်ချင်တာပါလဲ \n \n အောက်ကနမူနာလိုမျိုးပြန်ဖြေပေးပါ \n \n reason for joining - telegram bot ရေးတတ်ချင်လို့"
         );
       }
     } else {
