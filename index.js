@@ -34,15 +34,13 @@ async function main() {
   bot.command("b13_register", b13Register);
 
   bot.command("b13_why_join", b13WhyJoin);
-  // bot.hears("reason", (ctx) => {
-  //   ctx.reply("reason");
-  //   ctx.reply(ctx.message.text);
-  // });
 
   // check id
   bot.command("b13_my_id", b13MyID);
 
   bot.command("b13_when", b13When);
+
+  bot.command("b13_present", );
 
   bot.on("text", async (ctx) => {
     const { text } = ctx.message;

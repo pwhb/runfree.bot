@@ -1,5 +1,12 @@
 import { B13Student } from "../models/index.js";
+
 export const b13Register = async (ctx) => {
+  if (ctx.chat.type !== "private") {
+    ctx.reply(
+      "private info နဲ့ဆိုင်သမျှကို private chat မှာသာလုပ်နိုင်ပါတယ်။ \n \n t.me/rf_b_bot"
+    );
+    return;
+  }
   try {
     const { id, first_name, last_name, username } = ctx.chat;
     const doc = await B13Student.findOne({ telegram_id: id });
@@ -28,18 +35,13 @@ export const b13Register = async (ctx) => {
   }
 };
 
-export const b13ReasonForJoining = async ({
-  telegram_id,
-  reason_for_joining,
-}) => {
-  const doc = await B13Student.findOneAndUpdate(
-    { telegram_id },
-    { reason_for_joining },
-    { new: true }
-  );
-};
-
 export const b13MyID = async (ctx) => {
+  if (ctx.chat.type !== "private") {
+    ctx.reply(
+      "private info နဲ့ဆိုင်သမျှကို private chat မှာသာလုပ်နိုင်ပါတယ်။ \n \n t.me/rf_b_bot"
+    );
+    return;
+  }
   try {
     const { id, first_name } = ctx.chat;
     const doc = await B13Student.findOne({ telegram_id: id });
@@ -58,6 +60,12 @@ export const b13MyID = async (ctx) => {
 };
 
 export const b13WhyJoin = async (ctx) => {
+  if (ctx.chat.type !== "private") {
+    ctx.reply(
+      "private info နဲ့ဆိုင်သမျှကို private chat မှာသာလုပ်နိုင်ပါတယ်။ \n \n t.me/rf_b_bot"
+    );
+    return;
+  }
   try {
     const { id, first_name } = ctx.chat;
     const doc = await B13Student.findOne({ telegram_id: id });
@@ -86,6 +94,12 @@ export const b13WhyJoin = async (ctx) => {
 };
 
 export const b13EditWhyJoin = async ({ ctx, reason_for_joining }) => {
+  if (ctx.chat.type !== "private") {
+    ctx.reply(
+      "private info နဲ့ဆိုင်သမျှကို private chat မှာသာလုပ်နိုင်ပါတယ်။ \n \n t.me/rf_b_bot"
+    );
+    return;
+  }
   try {
     const { id, first_name } = ctx.chat;
     const doc = await B13Student.findOneAndUpdate(
@@ -106,6 +120,38 @@ export const b13EditWhyJoin = async ({ ctx, reason_for_joining }) => {
   }
 };
 
+export const b13Present = async (ctx) => {
+  if (ctx.chat.type !== "private") {
+    ctx.reply(
+      "private info နဲ့ဆိုင်သမျှကို private chat မှာသာလုပ်နိုင်ပါတယ်။ \n \n t.me/rf_b_bot"
+    );
+    return;
+  }
+  const now = new Date();
+  const day = now.getDay();
+
+  const start = new Date();
+  start.setHours(12, 0, 0);
+  const end = new Date();
+  end.setHours(13, 30, 0);
+
+  if (day == 1 || day == 5) {
+    if (start <= now && end >= now) {
+      const { id } = ctx.chat;
+
+      const doc = B13Student.findOne({ telegram_id: id });
+      if (doc) {
+        // update database
+        ctx.reply("‌attendance မှတ်တမ်းတင်လိုက်ပါပြီ");
+        ctx.reply("‌attendance မှတ်တမ်းတင်ပြီးပါပြီ");
+      } else {
+        ctx.reply(
+          `အတန်းတက်ဖို့ စာရင်းမသွင်းရသေးပါ။ /b13_register ကို နှိပ်ပြီး စာရင်းအရင်သွင်းပါ`
+        );
+      }
+    }
+  }
+};
 export const b13When = async (ctx) => {
   const now = new Date();
   const day = now.getDay();

@@ -11,6 +11,7 @@ const StudentSchema = new mongoose.Schema({
   last_name: String,
   reason_for_joining: String,
   reason_for_leaving: String,
+  attendance: [Boolean],
 });
 
 StudentSchema.plugin(AutoIncrement, { inc_field: "student_id" });
