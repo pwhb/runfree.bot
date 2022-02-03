@@ -2,6 +2,8 @@ import axios from "axios";
 import { B13Student } from "../models/index.js";
 import keywords from "../keywords.json";
 
+const greetKeywords = ["hi", "hello", "hey"];
+
 export const b13Help = async (ctx) => {
   if (ctx.chat.type === "group") {
     ctx.reply(
@@ -263,7 +265,7 @@ export const jokeHandler = async (ctx) => {
 
 export const textHandler = async (ctx) => {
   const { text } = ctx.message;
-  const greetKeywords = keywords.greet;
+
   try {
     if (text.includes("reason for joining")) {
       let reason_for_joining = text.replace("reason for joining", "");
