@@ -9,9 +9,11 @@ import {
   b13Help,
   textHandler,
   b13Class,
+  jokeHandler,
 } from "./controller/index.js";
 import mongoose from "mongoose";
 import express from "express";
+import axios from "axios";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -50,6 +52,8 @@ async function main() {
   bot.command("b13_present", b13Present);
 
   bot.command("b13_class", b13Class);
+
+  bot.command("tell_a_joke", jokeHandler);
 
   bot.on("text", textHandler);
 

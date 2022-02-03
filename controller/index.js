@@ -1,14 +1,18 @@
+import axios from "axios";
 import { B13Student } from "../models/index.js";
 
 export const b13Help = async (ctx) => {
   if (ctx.chat.type === "group") {
     ctx.reply(
-      "/help : command list \n/b13_class : အတန်း page link \n/b13_when : လာမယ့်အတန်းကဘယ်တော့လဲ?"
+      "/help : command list \n/b13_class : အတန်း page link \n/b13_when : လာမယ့်အတန်းကဘယ်တော့လဲ?\n/tell_a_joke : ဟာသပြောပြ"
     );
   } else if (ctx.chat.type === "private") {
     ctx.reply(
-      "/help : command list \n/b13_class : အတန်း page link \n/b13_register : စာရင်းသွင်းမယ် \n/b13_my_id : student id သိချင်တယ် \n/b13_when : လာမယ့်အတန်းကဘယ်တော့လဲ? \n/b13_why_join : ဘာလို့တက်ချင်လဲကို ပြင်မယ် \n/b13_present : attendance မှတ်တမ်းတင်မယ် \n/b13_quit : အတန်းကထွက်မယ်"
+      "/help : command list \n/b13_class : အတန်း page link \n/b13_register : စာရင်းသွင်းမယ် \n/b13_my_id : student id သိချင်တယ် \n/b13_when : လာမယ့်အတန်းကဘယ်တော့လဲ? \n/b13_why_join : ဘာလို့တက်ချင်လဲကို ပြင်မယ် \n/b13_present : attendance မှတ်တမ်းတင်မယ် \n/tell_a_joke : ဟာသပြောပြ"
     );
+    // ctx.reply(
+    //   "/help : command list \n/b13_class : အတန်း page link \n/b13_register : စာရင်းသွင်းမယ် \n/b13_my_id : student id သိချင်တယ် \n/b13_when : လာမယ့်အတန်းကဘယ်တော့လဲ? \n/b13_why_join : ဘာလို့တက်ချင်လဲကို ပြင်မယ် \n/b13_present : attendance မှတ်တမ်းတင်မယ် \n/tell_a_joke : ဟာသပြောပြ \n/b13_quit : အတန်းကထွက်မယ်"
+    // );
   }
 };
 
@@ -216,6 +220,43 @@ export const b13When = async (ctx) => {
       } else {
         ctx.reply("တနင်္လာနေ့ 6:30-8:00 PM");
       }
+  }
+};
+
+export const jokeHandler = async (ctx) => {
+  try {
+    const { data } = await axios.get("https://v2.jokeapi.dev/joke/Any");
+    const { joke, setup, delivery, category } = data;
+    // console.log(data);
+    let emoji;
+    switch (category) {
+      case "Programming":
+        emoji = "🖥️";
+        break;
+      case "Misc":
+        emoji = "¯\\_(ツ)_/¯";
+        break;
+      case "Dark":
+        emoji = "😬";
+        break;
+      case "Pun":
+        emoji = "😁";
+        break;
+      case "Spooky":
+        emoji = "🥶";
+        break;
+      case "Christmas":
+        emoji = "🎄";
+        break;
+    }
+
+    if (joke) {
+      ctx.reply(`${joke} ${emoji}`);
+    } else {
+      ctx.reply(`${setup} \n \n${delivery} ${emoji}`);
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
 
