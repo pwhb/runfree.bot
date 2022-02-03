@@ -18,8 +18,6 @@ import axios from "axios";
 const app = express();
 const port = process.env.PORT || 3000;
 
-const greetKeywords = ["hi", "hello", "hey"];
-
 app.get("/", (req, res) => res.send("runfree bot"));
 app.listen(port, () => {
   console.log("server started");

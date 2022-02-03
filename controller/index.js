@@ -1,5 +1,6 @@
 import axios from "axios";
 import { B13Student } from "../models/index.js";
+import keywords from "../keywords.json";
 
 export const b13Help = async (ctx) => {
   if (ctx.chat.type === "group") {
@@ -262,15 +263,20 @@ export const jokeHandler = async (ctx) => {
 
 export const textHandler = async (ctx) => {
   const { text } = ctx.message;
-  if (text.includes("reason for joining")) {
-    let reason_for_joining = text.replace("reason for joining", "");
-    reason_for_joining = reason_for_joining.replace(":", "");
-    reason_for_joining = reason_for_joining.replace("-", "");
-    reason_for_joining = reason_for_joining.trim();
-    await b13EditWhyJoin({ ctx, reason_for_joining });
-  } else if (greetKeywords.includes(text.toLowerCase())) {
-    ctx.reply(`${text} ${ctx.chat.first_name}`);
-  } else {
-    ctx.reply("နားမလည်ပါ");
+  const greetKeywords = keywords.greet;
+  try {
+    if (text.includes("reason for joining")) {
+      let reason_for_joining = text.replace("reason for joining", "");
+      reason_for_joining = reason_for_joining.replace(":", "");
+      reason_for_joining = reason_for_joining.replace("-", "");
+      reason_for_joining = reason_for_joining.trim();
+      await b13EditWhyJoin({ ctx, reason_for_joining });
+    } else if (greetKeywords.includes(text.toLowerCase())) {
+      ctx.reply(`${text} ${ctx.chat.first_name}`);
+    } else {
+      ctx.reply("နားမလည်ပါ");
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
