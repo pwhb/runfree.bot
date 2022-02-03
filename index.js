@@ -5,6 +5,10 @@ import {
   b13When,
   b13WhyJoin,
   b13EditWhyJoin,
+  b13Present,
+  b13Help,
+  textHandler,
+  b13Class,
 } from "./controller/index.js";
 import mongoose from "mongoose";
 import express from "express";
@@ -27,6 +31,7 @@ async function main() {
     })
     .catch((e) => console.log(e));
   const bot = new Telegraf(process.env.BOT_TOKEN);
+  // const bot = new Telegraf("5040711592:AAFgst8BjvlD8FiO2Jn9BGcwW7Ep-23ynnc");
 
   bot.start((ctx) => ctx.reply(`hello ${ctx.chat.first_name}`));
 
@@ -40,22 +45,13 @@ async function main() {
 
   bot.command("b13_when", b13When);
 
-  bot.command("b13_present", );
+  bot.command("help", b13Help);
 
-  bot.on("text", async (ctx) => {
-    const { text } = ctx.message;
-    if (text.includes("reason for joining")) {
-      let reason_for_joining = text.replace("reason for joining", "");
-      reason_for_joining = reason_for_joining.replace(":", "");
-      reason_for_joining = reason_for_joining.replace("-", "");
-      reason_for_joining = reason_for_joining.trim();
-      await b13EditWhyJoin({ ctx, reason_for_joining });
-    } else if (greetKeywords.includes(text.toLowerCase())) {
-      ctx.reply(`${text} ${ctx.chat.first_name}`);
-    } else {
-      ctx.reply("နားမလည်ပါ");
-    }
-  });
+  bot.command("b13_present", b13Present);
+
+  bot.command("b13_class", b13Class);
+
+  bot.on("text", textHandler);
 
   bot.launch();
 
