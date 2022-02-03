@@ -1,6 +1,5 @@
 import axios from "axios";
 import { B13Student } from "../models/index.js";
-import keywords from "../keywords.json";
 
 const greetKeywords = ["hi", "hello", "hey"];
 
