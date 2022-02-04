@@ -3,6 +3,7 @@ import { B13Student } from "../models/index.js";
 
 const greetKeywords = ["hi", "hello", "hey"];
 let classTime = "6:30 - 8:00 PM";
+let classText = "https://runfree-broccoli.vercel.app/class/b-13";
 
 export const b13Help = async (ctx) => {
   if (ctx.chat.type === "private") {
@@ -22,7 +23,7 @@ export const b13Help = async (ctx) => {
 };
 
 export const b13Class = async (ctx) => {
-  ctx.reply("https://runfree-broccoli.vercel.app/class/b-13");
+  ctx.reply(classText);
 };
 
 export const b13Register = async (ctx) => {
@@ -284,6 +285,16 @@ export const textHandler = async (ctx) => {
         if (username === "pwhbdev") {
           classTime = text.replace("change_classTime: ", "");
           ctx.reply("class time updated!");
+          ctx.reply("/when");
+        }
+      } else if (text.includes("change_classText")) {
+        const { username } = ctx.chat;
+        const { text } = ctx.message;
+
+        if (username === "pwhbdev") {
+          classTime = text.replace("change_classText: ", "");
+          ctx.reply("class text updated!");
+          ctx.reply("/class");
         }
       } else {
         ctx.reply("နားမလည်ပါ");
