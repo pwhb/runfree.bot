@@ -292,7 +292,7 @@ export const textHandler = async (ctx) => {
         const { text } = ctx.message;
 
         if (username === "pwhbdev") {
-          classTime = text.replace("change_classText: ", "");
+          classText = text.replace("change_classText: ", "");
           ctx.reply("class text updated!");
           ctx.reply("/class");
         }
