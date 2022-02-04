@@ -166,12 +166,14 @@ export const b13Present = async (ctx) => {
     if (start <= now && end >= now) {
       const { id } = ctx.chat;
 
-      const doc = B13Student.findOneAndUpdate(
-        { telegram_id: id },
-        { attendance: [true] },
-        { new: true }
-      );
+      const doc = B13Student.findOne({ telegram_id: id });
       if (doc) {
+        // // updated database
+        await B13Student.findOneAndUpdate(
+          { telegram_id: id },
+          { attendance: [true] },
+          { new: true }
+        );
         // // updated database
         // ctx.reply("‌attendance မှတ်တမ်းတင်လိုက်ပါပြီ");
         ctx.reply("‌attendance မှတ်တမ်းတင်ပြီးပါပြီ");
