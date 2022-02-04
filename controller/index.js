@@ -210,7 +210,7 @@ export const b13When = async (ctx) => {
       break;
     case 1:
       if (start > now) {
-        ctx.reply(`ဒီနေ့ညနေ ${classTime}`);
+        ctx.reply(`ဒီနေ့ ${classTime}`);
       } else if (start <= now && end >= now) {
         ctx.reply(`အခုအတန်းရှိနေတာနော် !!!`);
       } else {
