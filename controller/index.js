@@ -2,18 +2,21 @@ import axios from "axios";
 import { B13Student } from "../models/index.js";
 
 const greetKeywords = ["hi", "hello", "hey"];
+let classTime = "6:30 - 8:00 PM";
 
 export const b13Help = async (ctx) => {
-  if (ctx.chat.type === "group") {
+  if (ctx.chat.type === "private") {
     ctx.reply(
-      "/help : command list \n/b13_class : အတန်း page link \n/b13_when : လာမယ့်အတန်းကဘယ်တော့လဲ?\n/tell_a_joke : ဟာသပြောပြ"
+      "/help : command list \n/class : အတန်း page link \n/register : စာရင်းသွင်းမယ် \n/my_id : student id သိချင်တယ် \n/when : လာမယ့်အတန်းကဘယ်တော့လဲ? \n/why_join : ဘာလို့တက်ချင်လဲကို ပြင်မယ် \n/present : attendance မှတ်တမ်းတင်မယ် \n/tell_a_joke : ဟာသပြောပြ"
     );
-  } else if (ctx.chat.type === "private") {
-    ctx.reply(
-      "/help : command list \n/b13_class : အတန်း page link \n/b13_register : စာရင်းသွင်းမယ် \n/b13_my_id : student id သိချင်တယ် \n/b13_when : လာမယ့်အတန်းကဘယ်တော့လဲ? \n/b13_why_join : ဘာလို့တက်ချင်လဲကို ပြင်မယ် \n/b13_present : attendance မှတ်တမ်းတင်မယ် \n/tell_a_joke : ဟာသပြောပြ"
-    );
+  } else {
+    {
+      ctx.reply(
+        "/help : command list \n/class : အတန်း page link \n/when : လာမယ့်အတန်းကဘယ်တော့လဲ?\n/tell_a_joke : ဟာသပြောပြ"
+      );
+    }
     // ctx.reply(
-    //   "/help : command list \n/b13_class : အတန်း page link \n/b13_register : စာရင်းသွင်းမယ် \n/b13_my_id : student id သိချင်တယ် \n/b13_when : လာမယ့်အတန်းကဘယ်တော့လဲ? \n/b13_why_join : ဘာလို့တက်ချင်လဲကို ပြင်မယ် \n/b13_present : attendance မှတ်တမ်းတင်မယ် \n/tell_a_joke : ဟာသပြောပြ \n/b13_quit : အတန်းကထွက်မယ်"
+    //   "/help : command list \n/class : အတန်း page link \n/register : စာရင်းသွင်းမယ် \n/my_id : student id သိချင်တယ် \n/when : လာမယ့်အတန်းကဘယ်တော့လဲ? \n/why_join : ဘာလို့တက်ချင်လဲကို ပြင်မယ် \n/present : attendance မှတ်တမ်းတင်မယ် \n/tell_a_joke : ဟာသပြောပြ \n/quit : အတန်းကထွက်မယ်"
     // );
   }
 };
@@ -73,7 +76,7 @@ export const b13MyID = async (ctx) => {
       );
     } else {
       ctx.reply(
-        `အတန်းတက်ဖို့ စာရင်းမသွင်းရသေးပါ။ /b13_register ကို နှိပ်ပြီး စာရင်းသွင်းပါ`
+        `အတန်းတက်ဖို့ စာရင်းမသွင်းရသေးပါ။ /register ကို နှိပ်ပြီး စာရင်းသွင်းပါ`
       );
     }
   } catch (e) {
@@ -107,7 +110,7 @@ export const b13WhyJoin = async (ctx) => {
       }
     } else {
       ctx.reply(
-        `${first_name} အတန်းတက်ဖို့ စာရင်းမသွင်းရသေးပါ။ /b13_register ကို နှိပ်ပြီး စာရင်းအရင်သွင်းပါ`
+        `${first_name} အတန်းတက်ဖို့ စာရင်းမသွင်းရသေးပါ။ /register ကို နှိပ်ပြီး စာရင်းအရင်သွင်းပါ`
       );
     }
   } catch (e) {
@@ -131,10 +134,10 @@ export const b13EditWhyJoin = async ({ ctx, reason_for_joining }) => {
     );
     if (doc) {
       ctx.reply(`တက်ချင်တဲ့ အကြောင်းအရင်း : ${reason_for_joining}`);
-      ctx.reply(`ပြန်ပြင်လိုပါက /b13_why_join ကိုနှိပ်ပါ`);
+      ctx.reply(`ပြန်ပြင်လိုပါက /why_join ကိုနှိပ်ပါ`);
     } else {
       ctx.reply(
-        `အတန်းတက်ဖို့ စာရင်းမသွင်းရသေးပါ။ /b13_register ကို နှိပ်ပြီး စာရင်းအရင်သွင်းပါ`
+        `အတန်းတက်ဖို့ စာရင်းမသွင်းရသေးပါ။ /register ကို နှိပ်ပြီး စာရင်းအရင်သွင်းပါ`
       );
     }
   } catch (e) {
@@ -173,7 +176,7 @@ export const b13Present = async (ctx) => {
         ctx.reply("‌attendance မှတ်တမ်းတင်ပြီးပါပြီ");
       } else {
         ctx.reply(
-          `အတန်းတက်ဖို့ စာရင်းမသွင်းရသေးပါ။ /b13_register ကို နှိပ်ပြီး စာရင်းအရင်သွင်းပါ`
+          `အတန်းတက်ဖို့ စာရင်းမသွင်းရသေးပါ။ /register ကို နှိပ်ပြီး စာရင်းအရင်သွင်းပါ`
         );
       }
 
@@ -195,32 +198,32 @@ export const b13When = async (ctx) => {
   switch (day) {
     case 0:
     case 4:
-      ctx.reply("မနက်ဖြန် 6:30-8:00 PM");
+      ctx.reply(`မနက်ဖြန် ${classTime}`);
       break;
 
     case 2:
     case 3:
-      ctx.reply("သောကြာနေ့ 6:30-8:00 PM");
+      ctx.reply(`သောကြာနေ့ ${classTime}`);
       break;
     case 6:
-      ctx.reply("တနင်္လာနေ့ 6:30-8:00 PM");
+      ctx.reply(`တနင်္လာနေ့ ${classTime}`);
       break;
     case 1:
       if (start > now) {
-        ctx.reply("ဒီနေ့ညနေ 6:30-8:00 PM");
+        ctx.reply(`ဒီနေ့ညနေ ${classTime}`);
       } else if (start <= now && end >= now) {
-        ctx.reply("အခုအတန်းရှိနေတာနော် !!!");
+        ctx.reply(`အခုအတန်းရှိနေတာနော် !!!`);
       } else {
-        ctx.reply("သောကြာနေ့ 6:30-8:00 PM");
+        ctx.reply(`သောကြာနေ့ ${classTime}`);
       }
       break;
     case 5:
       if (start > now) {
-        ctx.reply("ဒီနေ့ 6:30-8:00 PM");
+        ctx.reply(`ဒီနေ့ ${classTime}`);
       } else if (start <= now && end >= now) {
-        ctx.reply("အခုအတန်းရှိနေတာနော် !!!");
+        ctx.reply(`အခုအတန်းရှိနေတာနော် !!!`);
       } else {
-        ctx.reply("တနင်္လာနေ့ 6:30-8:00 PM");
+        ctx.reply(`တနင်္လာနေ့ ${classTime}`);
       }
   }
 };
@@ -263,21 +266,30 @@ export const jokeHandler = async (ctx) => {
 };
 
 export const textHandler = async (ctx) => {
-  const { text } = ctx.message;
+  if (ctx.chat.type === "private") {
+    const { text } = ctx.message;
+    try {
+      if (text.includes("reason for joining")) {
+        let reason_for_joining = text.replace("reason for joining", "");
+        reason_for_joining = reason_for_joining.replace(":", "");
+        reason_for_joining = reason_for_joining.replace("-", "");
+        reason_for_joining = reason_for_joining.trim();
+        await b13EditWhyJoin({ ctx, reason_for_joining });
+      } else if (greetKeywords.includes(text.toLowerCase())) {
+        ctx.reply(`${text} ${ctx.chat.first_name}`);
+      } else if (text.includes("change_classTime")) {
+        const { username } = ctx.chat;
+        const { text } = ctx.message;
 
-  try {
-    if (text.includes("reason for joining")) {
-      let reason_for_joining = text.replace("reason for joining", "");
-      reason_for_joining = reason_for_joining.replace(":", "");
-      reason_for_joining = reason_for_joining.replace("-", "");
-      reason_for_joining = reason_for_joining.trim();
-      await b13EditWhyJoin({ ctx, reason_for_joining });
-    } else if (greetKeywords.includes(text.toLowerCase())) {
-      ctx.reply(`${text} ${ctx.chat.first_name}`);
-    } else {
-      ctx.reply("နားမလည်ပါ");
+        if (username === "pwhbdev") {
+          classTime = text.replace("change_classTime: ", "");
+          ctx.reply("class time updated!");
+        }
+      } else {
+        ctx.reply("နားမလည်ပါ");
+      }
+    } catch (e) {
+      console.log(e);
     }
-  } catch (e) {
-    console.log(e);
   }
 };
