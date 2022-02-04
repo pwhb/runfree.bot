@@ -10,7 +10,6 @@ import {
   textHandler,
   b13Class,
   jokeHandler,
-  changeClassTime,
 } from "./controller/index.js";
 import mongoose from "mongoose";
 import express from "express";
