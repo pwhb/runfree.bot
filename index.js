@@ -1,22 +1,20 @@
 import { Telegraf } from "telegraf";
 import {
-  b13Register,
-  b13MyID,
-  b13When,
-  b13WhyJoin,
-  b13EditWhyJoin,
-  b13Present,
-  b13Help,
+  register,
+  my_info,
+  class_info,
+  help,
+  why_join,
+  when,
+  present,
   textHandler,
-  b13Class,
   jokeHandler,
 } from "./controller/index.js";
 import mongoose from "mongoose";
 import express from "express";
-import axios from "axios";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 app.get("/", (req, res) => res.send("runfree bot"));
 app.listen(port, () => {
@@ -31,27 +29,29 @@ async function main() {
     })
     .catch((e) => console.log(e));
   const bot = new Telegraf(process.env.BOT_TOKEN);
-  // const bot = new Telegraf("5040711592:AAFgst8BjvlD8FiO2Jn9BGcwW7Ep-23ynnc");
+  // const bot = new Telegraf(process.env.TEST_TOKEN);
 
   bot.start((ctx) => {
     ctx.reply(`hello ${ctx.chat.first_name}`);
   });
-
+  bot.command("test", (ctx) => {
+    ctx.reply(ctx.chat.id);
+  });
   // register
-  bot.command("register", b13Register);
+  bot.command("register", register);
 
-  bot.command("why_join", b13WhyJoin);
+  bot.command("why_join", why_join);
 
   // check id
-  bot.command("my_id", b13MyID);
+  bot.command("my_id", my_info);
 
-  bot.command("when", b13When);
+  bot.command("when", when);
 
-  bot.command("help", b13Help);
+  bot.command("help", help);
 
-  bot.command("present", b13Present);
+  bot.command("present", present);
 
-  bot.command("class", b13Class);
+  bot.command("class", class_info);
 
   bot.command("tell_a_joke", jokeHandler);
 

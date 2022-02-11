@@ -16,4 +16,15 @@ const StudentSchema = new mongoose.Schema({
 
 StudentSchema.plugin(AutoIncrement, { inc_field: "student_id" });
 
+const ProjectSchema = new mongoose.Schema({
+  name: String,
+  desc: String,
+  first_name: String,
+  telegram_id: String,
+  type: String,
+  updated_at: Date,
+});
+
+export const B13Project = mongoose.model("B13_Project", ProjectSchema);
+
 export const B13Student = mongoose.model("B13_Student", StudentSchema);
