@@ -56,7 +56,7 @@ bot.telegram.setWebhook(`${WEBHOOK_URL}${secretPath}`)
 app.use(bot.webhookCallback(secretPath))
 
 app.listen(PORT, () => {
-  await mongoose
+  mongoose
     .connect(process.env.MONGODB_URI)
     .then(() => {
       console.log("database connected!");
