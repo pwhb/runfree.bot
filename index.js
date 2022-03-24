@@ -11,15 +11,9 @@ import {
   jokeHandler,
 } from "./controller/index.js";
 import mongoose from "mongoose";
-import express from "express";
+import { app } from "./server.js"
 
-const app = express();
-const port = process.env.PORT || 4000;
-
-app.get("/", (req, res) => res.send("runfree bot"));
-app.listen(port, () => {
-  console.log("server started");
-});
+const { PORT, WEBHOOK_URL } = process.env;
 
 async function main() {
   await mongoose
@@ -57,11 +51,23 @@ async function main() {
 
   bot.on("text", textHandler);
 
-  bot.launch();
+  const secretPath = `/telegraf/${bot.secretPathComponent()}`
 
-  // Enable graceful stop
-  process.once("SIGINT", () => bot.stop("SIGINT"));
-  process.once("SIGTERM", () => bot.stop("SIGTERM"));
+  // bot.launch();
+  bot.telegram.setWebhook(`${WEBHOOK_URL}${secretPath}`)
+
+  // Set the bot API endpoint
+  app.use(bot.webhookCallback(secretPath))
+
+
+  app.listen(PORT, () => {
+    console.log("server started");
+  });
+
+  // // Enable graceful stop
+  // process.once("SIGINT", () => bot.stop("SIGINT"));
+  // process.once("SIGTERM", () => bot.stop("SIGTERM"));
+
 }
 
 main();
